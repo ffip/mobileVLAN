@@ -26,7 +26,7 @@ func newConfig() *config {
 		},
 		Point: map[string][]string{},
 		Tower: configtower{
-			DNS:      configDNS{},
+// 			DNS:      configDNS{},
 			Interval: 60,
 			Hosts:    []string{},
 		},
@@ -40,7 +40,7 @@ func newConfig() *config {
 			Delay: "1m",
 		},
 		Relays: configRelay{
-			UseRelays: true,
+			AllowRelays: false,
 		},
 		Cipher: "aes",
 		SSHD: configSSHD{
@@ -89,17 +89,17 @@ type configPKI struct {
 type configtower struct {
 	AllowTower bool      `yaml:"allow_tower,omitempty"`
 	ServeDNS   bool      `yaml:"serve_dns,omitempty"`
-	DNS        configDNS `yaml:"dns,omitempty"`
+// 	DNS        configDNS `yaml:"dns,omitempty"`
 	Interval   int       `yaml:"interval,omitempty"`
 	Hosts      []string  `yaml:"hosts,omitempty"`
 	//RemoteAllowList map[string]bool        `yaml:"remote_allow_list"`
 	//LocalAllowList  map[string]interface{} `yaml:"local_allow_list"` // This can be a special "interfaces" object or a bool
 }
 
-type configDNS struct {
-	Host string `yaml:"host,omitempty"`
-	Port int    `yaml:"port,omitempty"`
-}
+// type configDNS struct {
+// 	Host string `yaml:"host,omitempty"`
+// 	Port int    `yaml:"port,omitempty"`
+// }
 
 type configListen struct {
 	Host        string `yaml:"host,omitempty"`
@@ -203,6 +203,5 @@ type configFirewallRule struct {
 
 type configRelay struct {
 	AllowRelay bool     `yaml:"allow_relay,omitempty"`
-	UseRelays  bool     `yaml:"use_relays"`
 	Relays     []string `yaml:"relays,omitempty"`
 }
