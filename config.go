@@ -40,7 +40,7 @@ func newConfig() *config {
 			Delay: "1m",
 		},
 		Relays: configRelay{
-			AllowRelays: false,
+			AllowRelay: false,
 		},
 		Cipher: "aes",
 		SSHD: configSSHD{
