@@ -38,12 +38,12 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: MobileHiPer.xcframework
-          path: /Users/runner/MobileHiPer.xcframework
+          path: /Users/runner/mobileHiPer/MobileHiPer.xcframework
           retention-days: 5
 
       - name: Collect Android artifacts
         uses: actions/upload-artifact@v3
         with:
           name: MobileHiPer.aar
-          path: /Users/runner/MobileHiPer.aar
+          path: /Users/runner/mobileHiPer/MobileHiPer.aar
           retention-days: 5
