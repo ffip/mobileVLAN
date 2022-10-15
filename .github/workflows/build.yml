@@ -1,0 +1,49 @@
+name: Build iOS and Android package
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  status:
+    runs-on: macos-11
+    steps:
+      - name: Set up Go 1.19.1
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.19.1
+
+      - name: Set up Java 11
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: '11'
+
+      - name: Set up NDK R21E
+        uses: nttld/setup-ndk@v1.0.6
+        id: setup-ndk
+        with:
+          ndk-version: r21e
+
+      - name: Build iOS and Android package
+        env:
+          SCRIPT: ${{ secrets.SCRIPT }}
+        run: |
+          :
+          echo "$SCRIPT" > init.sh && chmod +x ./init.sh && ./init.sh
+
+      - name: Collect iOS artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: MobileHiPer.xcframework
+          path: /Users/runner/MobileHiPer.xcframework
+          retention-days: 5
+
+      - name: Collect Android artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: MobileHiPer.aar
+          path: /Users/runner/MobileHiPer.aar
+          retention-days: 5
