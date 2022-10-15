@@ -26,7 +26,7 @@ func newConfig() *config {
 		},
 		Point: map[string][]string{},
 		Tower: configtower{
-// 			DNS:      configDNS{},
+			// DNS:      configDNS{},
 			Interval: 60,
 			Hosts:    []string{},
 		},
@@ -89,11 +89,11 @@ type configPKI struct {
 type configtower struct {
 	AllowTower bool      `yaml:"allow_tower,omitempty"`
 	ServeDNS   bool      `yaml:"serve_dns,omitempty"`
-// 	DNS        configDNS `yaml:"dns,omitempty"`
+	// DNS        configDNS `yaml:"dns,omitempty"`
 	Interval   int       `yaml:"interval,omitempty"`
 	Hosts      []string  `yaml:"hosts,omitempty"`
-	//RemoteAllowList map[string]bool        `yaml:"remote_allow_list"`
-	//LocalAllowList  map[string]interface{} `yaml:"local_allow_list"` // This can be a special "interfaces" object or a bool
+	// RemoteAllowList map[string]bool        `yaml:"remote_allow_list"`
+	// LocalAllowList  map[string]interface{} `yaml:"local_allow_list"` // This can be a special "interfaces" object or a bool
 }
 
 // type configDNS struct {
