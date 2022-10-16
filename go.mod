@@ -1,4 +1,4 @@
-module github.com/ffip/mobile_hiper
+module github.com/ffip/mobileHiPer
 
 go 1.19
 

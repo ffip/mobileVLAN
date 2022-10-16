@@ -31,7 +31,7 @@ func newConfig() *config {
 		},
 		Listen: configListen{
 			Host:  "0.0.0.0",
-			Port:  4242,
+			Port:  65533,
 			Batch: 64,
 		},
 		Punchy: configPunchy{
@@ -39,7 +39,7 @@ func newConfig() *config {
 			Delay: "1m",
 		},
 		Relays: configRelay{
-			UseRelays: true,
+			AllowRelay: false,
 		},
 		Cipher: "aes",
 		SSHD: configSSHD{
@@ -201,6 +201,5 @@ type configFirewallRule struct {
 
 type configRelay struct {
 	AllowRelay bool     `yaml:"allow_relay,omitempty"`
-	UseRelays  bool     `yaml:"use_relays"`
 	Relays     []string `yaml:"relays,omitempty"`
 }

@@ -39,17 +39,16 @@ func TestParseCerts(t *testing.T) {
   "cert": "-----BEGIN HIPER CERTIFICATE-----\nCmEKBGRlbW8SCYaMmDCAgIDwDyjn3aeaBjD3+aeaBjogsx61tqk5cAXrc1TExMlp\nCcObDPAVLU94jIhe+HzxV0NKIG7LJZr9vlShnmxQ1IMlsW0lREpZtd0bMFr3UVMv\nxoHlEkDeszjkqz37ZVkH7k3iRwsjdcSvg8bGoiQuvRLgSBizzb+pSmpoHiC7+88/\naJaOxAaYqQ0jTF/g/WhhVG+ctBIH\n-----END HIPER CERTIFICATE-----\n",
   "key": "-----BEGIN HIPER X25519 PRIVATE KEY-----\nersCnJjWfCBJl1M02Wtib/nSQccTqO+INnvOyKKsQwA=\n-----END HIPER X25519 PRIVATE KEY-----\n",
   "lhDuration": 7200,
-  "port": 4242,
+  "port": 65533,
   "mtu": 1300,
   "cipher": "aes",
   "sortKey": 3,
   "logVerbosity": "info"
 }`
-	s, err := RenderConfig(jsonConfig, "")
+	s, _ := RenderConfig(jsonConfig, "")
 
 	config := hc.NewC(logrus.New())
-	err = config.LoadString(s)
+	err := config.LoadString(s)
 
 	t.Log(err)
-	return
 }
