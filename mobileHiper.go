@@ -1,6 +1,8 @@
 package mobileHiPer
 
 import (
+	"github.com/ffip/hiper"
+	"github.com/ffip/hiper/cert"
 	"bytes"
 	"crypto/rand"
 	"encoding/json"
@@ -9,9 +11,6 @@ import (
 	"net"
 	"strings"
 	"time"
-
-	"github.com/ffip/hiper"
-	"github.com/ffip/hiper/cert"
 
 	hc "github.com/ffip/hiper/config"
 	"github.com/ffip/hiper/util"
@@ -104,13 +103,6 @@ func RenderConfig(configData string, key string) (string, error) {
 			route := &config.Tun.UnsafeRoutes[i]
 			route.Route = rawRoute["route"].(string)
 			route.Via = rawRoute["via"].(string)
-		}
-	}
-
-	if dnsResolvers, ok := d["dns"].([]interface{}); ok {
-		config.DNSResolvers = make([]string, len(dnsResolvers))
-		for i, r := range dnsResolvers {
-			config.DNSResolvers[i] = r.(string)
 		}
 	}
 

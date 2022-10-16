@@ -4,12 +4,11 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/ffip/hiper"
 	"net"
 	"os"
 	"runtime"
 	"runtime/debug"
-
-	"github.com/ffip/hiper"
 
 	hc "github.com/ffip/hiper/config"
 	"github.com/ffip/hiper/iputil"

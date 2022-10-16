@@ -1,21 +1,20 @@
 package mobileHiPer
 
 type config struct {
-	PKI          configPKI           `yaml:"pki"`
-	Point        map[string][]string `yaml:"point"`
-	Tower        configtower         `yaml:"tower"`
-	Listen       configListen        `yaml:"listen"`
-	Punchy       configPunchy        `yaml:"punchy"`
-	Cipher       string              `yaml:"cipher"`
-	LocalRange   string              `yaml:"local_range,omitempty"`
-	SSHD         configSSHD          `yaml:"sshd,omitempty"`
-	Tun          configTun           `yaml:"tun"`
-	Logging      configLogging       `yaml:"logging"`
-	Stats        configStats         `yaml:"stats,omitempty"`
-	Handshakes   configHandshakes    `yaml:"handshakes"`
-	Firewall     configFirewall      `yaml:"firewall"`
-	Relays       configRelay         `yaml:"relay"`
-	DNSResolvers []string            `yaml:"dns"`
+	PKI        configPKI           `yaml:"pki"`
+	Point      map[string][]string `yaml:"point"`
+	Tower      configtower         `yaml:"tower"`
+	Listen     configListen        `yaml:"listen"`
+	Punchy     configPunchy        `yaml:"punchy"`
+	Cipher     string              `yaml:"cipher"`
+	LocalRange string              `yaml:"local_range,omitempty"`
+	SSHD       configSSHD          `yaml:"sshd,omitempty"`
+	Tun        configTun           `yaml:"tun"`
+	Logging    configLogging       `yaml:"logging"`
+	Stats      configStats         `yaml:"stats,omitempty"`
+	Handshakes configHandshakes    `yaml:"handshakes"`
+	Firewall   configFirewall      `yaml:"firewall"`
+	Relays     configRelay         `yaml:"relay"`
 }
 
 func newConfig() *config {
@@ -26,7 +25,7 @@ func newConfig() *config {
 		},
 		Point: map[string][]string{},
 		Tower: configtower{
-			// DNS:      configDNS{},
+			DNS:      configDNS{},
 			Interval: 60,
 			Hosts:    []string{},
 		},
@@ -40,7 +39,7 @@ func newConfig() *config {
 			Delay: "1m",
 		},
 		Relays: configRelay{
-			AllowRelay: false,
+			UseRelays: true,
 		},
 		Cipher: "aes",
 		SSHD: configSSHD{
@@ -55,7 +54,6 @@ func newConfig() *config {
 			Routes:             []configRoute{},
 			UnsafeRoutes:       []configUnsafeRoute{},
 		},
-		DNSResolvers: []string{},
 		Logging: configLogging{
 			Level:  "info",
 			Format: "text",
@@ -87,19 +85,19 @@ type configPKI struct {
 }
 
 type configtower struct {
-	AllowTower bool     `yaml:"allow_tower,omitempty"`
-	ServeDNS   bool     `yaml:"serve_dns,omitempty"`
-	Hosts      []string `yaml:"hosts,omitempty"`
-	Interval   int      `yaml:"interval,omitempty"`
-	// DNS        configDNS `yaml:"dns,omitempty"`
-	// RemoteAllowList map[string]bool        `yaml:"remote_allow_list"`
-	// LocalAllowList  map[string]interface{} `yaml:"local_allow_list"` // This can be a special "interfaces" object or a bool
+	AllowTower bool      `yaml:"allow_tower,omitempty"`
+	ServeDNS   bool      `yaml:"serve_dns,omitempty"`
+	DNS        configDNS `yaml:"dns,omitempty"`
+	Interval   int       `yaml:"interval,omitempty"`
+	Hosts      []string  `yaml:"hosts,omitempty"`
+	//RemoteAllowList map[string]bool        `yaml:"remote_allow_list"`
+	//LocalAllowList  map[string]interface{} `yaml:"local_allow_list"` // This can be a special "interfaces" object or a bool
 }
 
-// type configDNS struct {
-// 	Host string `yaml:"host,omitempty"`
-// 	Port int    `yaml:"port,omitempty"`
-// }
+type configDNS struct {
+	Host string `yaml:"host,omitempty"`
+	Port int    `yaml:"port,omitempty"`
+}
 
 type configListen struct {
 	Host        string `yaml:"host,omitempty"`
@@ -203,5 +201,6 @@ type configFirewallRule struct {
 
 type configRelay struct {
 	AllowRelay bool     `yaml:"allow_relay,omitempty"`
+	UseRelays  bool     `yaml:"use_relays"`
 	Relays     []string `yaml:"relays,omitempty"`
 }
