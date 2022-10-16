@@ -10,11 +10,11 @@ import (
 	"runtime"
 	"runtime/debug"
 
+	"github.com/ffip/hiper"
+
 	hc "github.com/ffip/hiper/config"
 	"github.com/ffip/hiper/iputil"
 	"github.com/ffip/hiper/udp"
-	"github.com/ffip/hiper/util"
-	"github.com/sirupsen/logrus"
 )
 
 type HiPer struct {

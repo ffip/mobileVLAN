@@ -1,8 +1,6 @@
 package mobileHiPer
 
 import (
-	"github.com/ffip/hiper"
-	"github.com/ffip/hiper/cert"
 	"bytes"
 	"crypto/rand"
 	"encoding/json"
@@ -11,6 +9,9 @@ import (
 	"net"
 	"strings"
 	"time"
+
+	"github.com/ffip/hiper"
+	"github.com/ffip/hiper/cert"
 
 	hc "github.com/ffip/hiper/config"
 	"github.com/ffip/hiper/util"
