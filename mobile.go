@@ -52,15 +52,6 @@ func RenderConfig(configData string, key string) (string, error) {
 		return "", err
 	}
 
-	// If this is a managed config, go ahead and return it
-	// checkConfig(c, l.WithField("extention", "sync").WithField("function", "config"))
-	// go func() {
-	// 	for {
-	// 		time.Sleep(time.Duration(c.GetDuration("sync.interval", 15*time.Minute)))
-	// 		go checkConfig(c, l.WithField("extention", "sync").WithField("function", "config"))
-	// 	}
-	// }()
-
 	// Otherwise, build the config
 	cfg := newConfig()
 	cfg.PKI.CA, _ = d["ca"].(string)
