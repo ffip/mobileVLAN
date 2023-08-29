@@ -1,4 +1,4 @@
-module github.com/ffip/mobilevlan
+module github.com/ffip/mobileVLAN
 
 go 1.20
 

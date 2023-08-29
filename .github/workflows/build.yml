@@ -42,11 +42,11 @@ jobs:
         with:
           name: libx.xcframework
           path: /Users/runner/mobileVLAN/libx.xcframework
-          retention-days: 5
+          retention-days: 365
 
       - name: Collect Android artifacts
         uses: actions/upload-artifact@v3
         with:
           name: libx.aar
           path: /Users/runner/mobileVLAN/libx.aar
-          retention-days: 5
+          retention-days: 365
