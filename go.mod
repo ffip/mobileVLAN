@@ -1,5 +1,5 @@
-module github.com/ffip/mobileHiPer
+module github.com/ffip/mobilevlan
 
-go 1.19
+go 1.20
 
-replace github.com/ffip/hiper => ../hiper
+replace github.com/ffip/vlan => ../vlan

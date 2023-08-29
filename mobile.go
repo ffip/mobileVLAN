@@ -1,4 +1,4 @@
-package mobileHiPer
+package mobile
 
 import (
 	"bytes"
@@ -10,17 +10,16 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ffip/hiper"
-	"github.com/ffip/hiper/cert"
-
-	hc "github.com/ffip/hiper/config"
-	"github.com/ffip/hiper/util"
-	"github.com/sirupsen/logrus"
+	cfg "github.com/ffip/vlan/config"
+	"github.com/ffip/vlan/entry"
+	"github.com/ffip/vlan/lib/utils/caution"
+	"github.com/ffip/vlan/lib/utils/cert"
+	"github.com/ffip/vlan/lib/utils/logs/logger"
+	"github.com/ffip/vlan/lib/yaml"
 	"golang.org/x/crypto/curve25519"
-	"gopkg.in/yaml.v2"
 )
 
-type m map[string]interface{}
+type m map[string]any
 
 type CIDR struct {
 	Ip       string
@@ -36,7 +35,7 @@ type Validity struct {
 
 type RawCert struct {
 	RawCert  string
-	Cert     *cert.HiPerCertificate
+	Cert     *cert.Certificate
 	Validity Validity
 }
 
@@ -46,7 +45,6 @@ type KeyPair struct {
 }
 
 func RenderConfig(configData string, key string) (string, error) {
-	config := newConfig()
 	var d m
 
 	err := json.Unmarshal([]byte(configData), &d)
@@ -54,65 +52,65 @@ func RenderConfig(configData string, key string) (string, error) {
 		return "", err
 	}
 
-	config.PKI.CA, _ = d["ca"].(string)
-	config.PKI.Cert, _ = d["cert"].(string)
-	config.PKI.Key = key
+	// If this is a managed config, go ahead and return it
+	// checkConfig(c, l.WithField("extention", "sync").WithField("function", "config"))
+	// go func() {
+	// 	for {
+	// 		time.Sleep(time.Duration(c.GetDuration("sync.interval", 15*time.Minute)))
+	// 		go checkConfig(c, l.WithField("extention", "sync").WithField("function", "config"))
+	// 	}
+	// }()
+
+	// Otherwise, build the config
+	cfg := newConfig()
+	cfg.PKI.CA, _ = d["ca"].(string)
+	cfg.PKI.Cert, _ = d["cert"].(string)
+	cfg.PKI.Key = key
 
 	i, _ := d["port"].(float64)
-	config.Listen.Port = int(i)
+	cfg.Listen.Port = int(i)
 
-	config.Cipher, _ = d["cipher"].(string)
+	cfg.Cipher, _ = d["cipher"].(string)
 	// Log verbosity is not required
 	if val, _ := d["logVerbosity"].(string); val != "" {
-		config.Logging.Level = val
+		cfg.Logging.Level = val
 	}
 
 	i, _ = d["lhDuration"].(float64)
-	config.Tower.Interval = int(i)
+	cfg.Tower.Interval = int(i)
 
 	if i, ok := d["mtu"].(float64); ok {
 		mtu := int(i)
-		config.Tun.MTU = &mtu
+		cfg.Tun.Mtu = mtu
 	}
 
-	config.Tower.Hosts = make([]string, 0)
-	point := d["point"].(map[string]interface{})
-	for nebIp, mapping := range point {
-		def := mapping.(map[string]interface{})
+	points := d["points"].(map[string]any)
+	for nebIp, mapping := range points {
+		hosts := mapping.([]any)
 
-		isLh := def["tower"].(bool)
-		if isLh {
-			config.Tower.Hosts = append(config.Tower.Hosts, nebIp)
-		}
-
-		hosts := def["destinations"].([]interface{})
 		realHosts := make([]string, len(hosts))
 
 		for i, h := range hosts {
 			realHosts[i] = h.(string)
 		}
 
-		config.Point[nebIp] = realHosts
+		cfg.Points[nebIp] = realHosts
 	}
 
-	config.Relays.Relays = config.Tower.Hosts
-
-	if unsafeRoutes, ok := d["unsafeRoutes"].([]interface{}); ok {
-		config.Tun.UnsafeRoutes = make([]configUnsafeRoute, len(unsafeRoutes))
-		for i, r := range unsafeRoutes {
-			rawRoute := r.(map[string]interface{})
-			route := &config.Tun.UnsafeRoutes[i]
+	if routeTable, ok := d["routeTable"].([]any); ok {
+		cfg.Tun.RouteTable = make([]RouteTable, len(routeTable))
+		for i, r := range routeTable {
+			rawRoute := r.(map[string]any)
+			route := &cfg.Tun.RouteTable[i]
 			route.Route = rawRoute["route"].(string)
 			route.Via = rawRoute["via"].(string)
 		}
 	}
 
-	finalConfig, err := yaml.Marshal(config)
+	finalConfig, err := yaml.Marshal(cfg)
 	if err != nil {
 		return "", err
 	}
-
-	logrus.New().Infof("------------isTower---%s", finalConfig)
 
 	return string(finalConfig), nil
 }
@@ -130,33 +128,29 @@ func TestConfig(configData string, key string) error {
 	}
 
 	// We don't want to leak the config into the system logs
-	l := logrus.New()
+	l := logger.New(1000)
 	l.SetOutput(bytes.NewBuffer([]byte{}))
 
-	c := hc.NewC(l)
+	c := cfg.NewC(l)
 	err = c.LoadString(yamlConfig)
 	if err != nil {
 		return fmt.Errorf("failed to load config: %s", err)
 	}
 
-	_, err = hiper.Main(c, true, "", l, nil)
+	_, err = entry.Main(c, true, "", l, nil)
 	if err != nil {
-		switch v := err.(type) {
-		case util.ContextualError:
-			return v.Unwrap()
-		default:
-			return err
-		}
+		caution.LogWithContextIfNeeded("Failed to start", err, l)
+		return err
 	}
 	return nil
 }
 
 func GetConfigSetting(configData string, setting string) string {
 	// We don't want to leak the config into the system logs
-	l := logrus.New()
+	l := logger.New(1000)
 	l.SetOutput(io.Discard)
 
-	c := hc.NewC(l)
+	c := cfg.NewC(l)
 	c.LoadString(configData)
 	return c.GetString(setting, "")
 }
@@ -179,12 +173,12 @@ func ParseCIDR(cidr string) (*CIDR, error) {
 // Returns a JSON representation of 1 or more certificates
 func ParseCerts(rawStringCerts string) (string, error) {
 	var certs []RawCert
-	var c *cert.HiPerCertificate
+	var c *cert.Certificate
 	var err error
 	rawCerts := []byte(rawStringCerts)
 
 	for {
-		c, rawCerts, err = cert.UnmarshalHiPerCertificateFromPEM(rawCerts)
+		c, rawCerts, err = cert.UnmarshalCertificateFromPEM(rawCerts)
 		if err != nil {
 			return "", err
 		}
@@ -260,12 +254,12 @@ func VerifyCertAndKey(rawCert string, pemPrivateKey string) (bool, error) {
 		return false, fmt.Errorf("error while unmarshaling private key: %s", err)
 	}
 
-	hiperCert, _, err := cert.UnmarshalHiPerCertificateFromPEM([]byte(rawCert))
+	cert, _, err := cert.UnmarshalCertificateFromPEM([]byte(rawCert))
 	if err != nil {
 		return false, fmt.Errorf("error while unmarshaling cert: %s", err)
 	}
 
-	if err = hiperCert.VerifyPrivateKey(rawKey); err != nil {
+	if err = cert.VerifyPrivateKey(cert.Details.Curve, rawKey); err != nil {
 		return false, err
 	}
 
