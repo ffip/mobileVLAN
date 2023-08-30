@@ -106,11 +106,11 @@ func TestParseCerts(t *testing.T) {
         "respond": true,
         "delay": "1s",
         "respond_delay": "5s",
-        "cipher": "aes",
         "preferred_ranges": [
             "172.16.0.0/24"
         ]
     },
+    "cipher": "aes",
     "sshd": {
         "enabled": true,
         "port": 22222,
@@ -180,10 +180,12 @@ func TestParseCerts(t *testing.T) {
     "logging": {
         "level": "info",
         "format": "text",
+        "disable_timestamp": false,
         "file_path": "/var/log/vlan/vlan",
         "max_size": 20,
         "max_backups": 100,
         "max_age": 30,
+        "timestamp_format": "2006-01-02T15:04:05.000Z07:00"
     },
     "stats": {
         "message_metrics": false,

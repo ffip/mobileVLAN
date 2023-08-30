@@ -72,7 +72,6 @@ type Punchy struct {
 	Respond         bool     `json:"respond,omitempty" yaml:"respond,omitempty"`
 	Delay           string   `json:"delay,omitempty" yaml:"delay,omitempty"`
 	RespondDelay    string   `json:"respond_delay,omitempty" yaml:"respond_delay,omitempty"`
-	Cipher          string   `json:"cipher,omitempty" yaml:"cipher,omitempty"`
 	PreferredRanges []string `json:"preferred_ranges,omitempty" yaml:"preferred_ranges,omitempty"`
 }
 type Users struct {
