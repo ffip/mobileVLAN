@@ -1,7 +1,5 @@
 package mobile
 
-import "time"
-
 type config struct {
 	Sync       Sync                `json:"sync,omitempty" yaml:"sync,omitempty"`
 	PKI        PKI                 `json:"pki,omitempty" yaml:"pki,omitempty"`
@@ -10,7 +8,6 @@ type config struct {
 	Listen     Listen              `json:"listen,omitempty" yaml:"listen,omitempty"`
 	Punchy     Punchy              `json:"punchy,omitempty" yaml:"punchy,omitempty"`
 	SSHD       SSHD                `json:"sshd,omitempty" yaml:"sshd,omitempty"`
-	Broker     Broker              `json:"broker,omitempty" yaml:"broker,omitempty"`
 	Proxy      Proxy               `json:"proxy,omitempty" yaml:"proxy,omitempty"`
 	Tun        Tun                 `json:"tun,omitempty" yaml:"tun,omitempty"`
 	Logging    Logging             `json:"logging,omitempty" yaml:"logging,omitempty"`
@@ -88,10 +85,6 @@ type SSHD struct {
 	PointKey string  `json:"point_key,omitempty" yaml:"point_key,omitempty"`
 	Users    []Users `json:"users,omitempty" yaml:"users,omitempty"`
 }
-type Broker struct {
-	Points  []string `json:"points,omitempty" yaml:"points,omitempty"`
-	Service bool     `json:"service,omitempty" yaml:"service,omitempty"`
-}
 type Socks5 struct {
 	Addr     string `json:"addr,omitempty" yaml:"addr,omitempty"`
 	Port     int    `json:"port,omitempty" yaml:"port,omitempty"`
@@ -129,14 +122,13 @@ type Tun struct {
 	RouteTable         []RouteTable `json:"route_table,omitempty" yaml:"route_table,omitempty"`
 }
 type Logging struct {
-	Level            string    `json:"level,omitempty" yaml:"level,omitempty"`
-	Format           string    `json:"format,omitempty" yaml:"format,omitempty"`
-	DisableTimestamp bool      `json:"disable_timestamp,omitempty" yaml:"disable_timestamp,omitempty"`
-	FilePath         string    `json:"file_path,omitempty" yaml:"file_path,omitempty"`
-	MaxSize          int       `json:"max_size,omitempty" yaml:"max_size,omitempty"`
-	MaxBackups       int       `json:"max_backups,omitempty" yaml:"max_backups,omitempty"`
-	MaxAge           int       `json:"max_age,omitempty" yaml:"max_age,omitempty"`
-	TimestampFormat  time.Time `json:"timestamp_format,omitempty" yaml:"timestamp_format,omitempty"`
+	Level      string `json:"level,omitempty" yaml:"level,omitempty"`
+	Language   string `json:"lang,omitempty" yaml:"lang,omitempty"`
+	Format     string `json:"format,omitempty" yaml:"format,omitempty"`
+	FilePath   string `json:"file_path,omitempty" yaml:"file_path,omitempty"`
+	MaxSize    int    `json:"max_size,omitempty" yaml:"max_size,omitempty"`
+	MaxBackups int    `json:"max_backups,omitempty" yaml:"max_backups,omitempty"`
+	MaxAge     int    `json:"max_age,omitempty" yaml:"max_age,omitempty"`
 }
 type Stats struct {
 	MessageMetrics bool `json:"message_metrics,omitempty" yaml:"message_metrics,omitempty"`

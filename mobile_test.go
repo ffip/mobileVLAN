@@ -61,12 +61,6 @@ func TestParseCerts(t *testing.T) {
                 }
             ]
         },
-        "points": [
-            "6.6.6.6",
-            "7.7.7.7",
-            "7.7.1.1",
-            "6.6.1.1"
-        ],
         "remote_allow_list": {
             "172.16.0.0/12": false,
             "0.0.0.0/0": true,
@@ -138,12 +132,6 @@ func TestParseCerts(t *testing.T) {
             }
         ]
     },
-    "broker": {
-        "points": [
-            "6.6.6.6"
-        ],
-        "service": false
-    },
     "proxy": {
         "socks5": [
             {
@@ -192,12 +180,10 @@ func TestParseCerts(t *testing.T) {
     "logging": {
         "level": "info",
         "format": "text",
-        "disable_timestamp": false,
         "file_path": "/var/log/vlan/vlan",
         "max_size": 20,
         "max_backups": 100,
         "max_age": 30,
-        "timestamp_format": "2006-01-02T15:04:05.000Z07:00"
     },
     "stats": {
         "message_metrics": false,
