@@ -62,6 +62,7 @@ type config struct {
 	Firewall   Firewall            `json:"firewall,omitempty" yaml:"firewall,omitempty"`
 	Cipher     string              `json:"cipher,omitempty" yaml:"cipher,omitempty"`
 }
+
 // The Sync type represents a synchronization configuration with various properties.
 // @property {bool} Enable - A boolean value indicating whether synchronization is enabled or not.
 // @property {bool} Persistent - The `Persistent` property indicates whether the synchronization should

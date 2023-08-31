@@ -244,7 +244,7 @@ func TestParseCerts(t *testing.T) {
 
 	t.Log(err)
 
-    yamlConfig := `
+	yamlConfig := `
 name: Debug Test - unsafe
 id: be9d6756-4099-4b25-a901-9d3b773e7d1a
 pki:
@@ -420,7 +420,7 @@ firewall:
         - home
     `
 
-    err = config.LoadString(yamlConfig)
+	err = config.LoadString(yamlConfig)
 
 	t.Log(err)
 }
