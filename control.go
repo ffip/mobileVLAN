@@ -32,11 +32,6 @@ func NewBulk(configData string, key string, logFile string, tunFd int) (*Bulk, e
 	// GC more often, largely for iOS due to extension 15mb limit
 	debug.SetGCPercent(20)
 
-	yamlConfig, err := RenderConfig(configData, key)
-	if err != nil {
-		return nil, err
-	}
-
 	l := logger.New(1000)
 	f, err := os.OpenFile(logFile, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
 	if err != nil {
@@ -45,7 +40,7 @@ func NewBulk(configData string, key string, logFile string, tunFd int) (*Bulk, e
 	l.SetOutput(f)
 
 	c := cfg.NewC(l)
-	err = c.LoadString(yamlConfig)
+	err = c.LoadString(configData)
 	if err != nil {
 		return nil, fmt.Errorf("failed to load config: %s", err)
 	}
@@ -81,14 +76,10 @@ func (n *Bulk) Rebind(reason string) {
 	n.c.RebindUDPServer()
 }
 
-func (n *Bulk) Reload(configData string, key string) error {
+func (n *Bulk) Reload(configData string) error {
 	n.l.Info("Reloading Nebula")
-	yamlConfig, err := RenderConfig(configData, key)
-	if err != nil {
-		return err
-	}
 
-	return n.config.ReloadConfigString(yamlConfig)
+	return n.config.ReloadConfigString(configData)
 }
 
 func (n *Bulk) ListHostmap(pending bool) (string, error) {

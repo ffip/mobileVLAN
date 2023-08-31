@@ -1,5 +1,49 @@
 package mobile
 
+// The above type represents a configuration structure with various fields for different settings.
+// @property {Sync} Sync - The `Sync` property is of type `Sync` and is used for configuring
+// synchronization settings.
+// @property {PKI} PKI - PKI stands for Public Key Infrastructure. It is a set of roles, policies, and
+// procedures needed to create, manage, distribute, use, store, and revoke digital certificates and
+// manage public-key encryption. In the context of the `config` struct, the `PKI` property represents
+// the configuration
+// @property Points - The `Points` property is a map where the keys are strings and the values are
+// slices of strings. It is used to store a collection of points, where each point is represented by a
+// string.
+// @property {Tower} Tower - The `Tower` property represents the configuration for the tower component.
+// It may include settings such as the tower's address, port, and authentication credentials.
+// @property {Listen} Listen - The `Listen` property is a configuration for specifying the listening
+// address and port for the server. It typically includes the following fields:
+// @property {Punchy} Punchy - The `Punchy` property is a struct that contains configuration options
+// related to the Punchy service. It may include settings such as the Punchy server address, port, and
+// other relevant parameters.
+// @property {SSHD} SSHD - The `SSHD` property represents the configuration for the SSH daemon. It
+// includes settings such as the SSH port, allowed users, and authentication methods.
+// @property {Proxy} Proxy - The `Proxy` property in the `config` struct represents the configuration
+// for the proxy settings. It includes settings such as the proxy type, address, and authentication
+// credentials.
+// @property {Tun} Tun - The `Tun` property in the `config` struct represents the configuration for the
+// tunnel interface. It includes settings such as the IP address, subnet mask, and MTU (Maximum
+// Transmission Unit) for the tunnel interface.
+// @property {Logging} Logging - The `Logging` property is a struct that contains configuration options
+// for logging. It may include properties such as log level, log file path, log rotation settings, etc.
+// @property {Stats} Stats - The `Stats` property is a struct that contains configuration options
+// related to statistics and monitoring. It may include properties such as:
+// @property {Handshakes} Handshakes - The `Handshakes` property is a struct that contains
+// configuration options related to handshakes. It may include properties such as `Timeout`,
+// `MaxRetries`, `RetryInterval`, etc. These properties define how handshakes are handled in the
+// application.
+// @property {Timers} Timers - The `Timers` property is a struct that contains various timer
+// configurations. It is used to define the timing settings for different operations within the
+// application.
+// @property {PSK} PSK - The `PSK` property in the `config` struct represents the Pre-Shared Key
+// configuration. It is used for authentication and encryption purposes in a network communication. The
+// `PSK` struct may contain additional fields that define the specific configuration for the Pre-Shared
+// Key.
+// @property {Firewall} Firewall - The `Firewall` property is a configuration for firewall settings. It
+// specifies rules and settings related to network traffic filtering and security.
+// @property {string} Cipher - The `Cipher` property is a string that specifies the encryption cipher
+// to be used. It is used to encrypt and decrypt data during communication.
 type config struct {
 	Sync       Sync                `json:"sync,omitempty" yaml:"sync,omitempty"`
 	PKI        PKI                 `json:"pki,omitempty" yaml:"pki,omitempty"`
@@ -18,6 +62,21 @@ type config struct {
 	Firewall   Firewall            `json:"firewall,omitempty" yaml:"firewall,omitempty"`
 	Cipher     string              `json:"cipher,omitempty" yaml:"cipher,omitempty"`
 }
+// The Sync type represents a synchronization configuration with various properties.
+// @property {bool} Enable - A boolean value indicating whether synchronization is enabled or not.
+// @property {bool} Persistent - The `Persistent` property indicates whether the synchronization should
+// be persistent or not. If set to `true`, the synchronization will persist even after the application
+// restarts. If set to `false`, the synchronization will only occur during the current session and will
+// not persist after the application restarts.
+// @property {string} Interval - The `Interval` property specifies the time interval at which the
+// synchronization should occur. It is a string value that represents a duration, such as "1h" for 1
+// hour or "30s" for 30 seconds.
+// @property {string} Source - The `Source` property represents the source from where the data will be
+// synchronized. It could be a file path, a database connection string, or any other source of data.
+// @property {string} Store - The `Store` property is used to specify the location where the
+// synchronized data will be stored.
+// @property {string} Addition - The "Addition" property is an optional field that can be used to
+// provide additional information or configuration for the synchronization process.
 type Sync struct {
 	Enable     bool   `json:"enable,omitempty" yaml:"enable,omitempty"`
 	Persistent bool   `json:"persistent,omitempty" yaml:"persistent,omitempty"`
@@ -130,8 +189,16 @@ type Logging struct {
 	MaxAge     int    `json:"max_age,omitempty" yaml:"max_age,omitempty"`
 }
 type Stats struct {
-	MessageMetrics bool `json:"message_metrics,omitempty" yaml:"message_metrics,omitempty"`
-	TowerMetrics   bool `json:"tower_metrics,omitempty" yaml:"tower_metrics,omitempty"`
+	Type           string `json:"type,omitempty" yaml:"type,omitempty"`
+	Listen         string `json:"listen,omitempty" yaml:"listen,omitempty"`
+	Path           string `json:"path,omitempty" yaml:"path,omitempty"`
+	NameSpace      string `json:"name_space,omitempty" yaml:"name_space,omitempty"`
+	Extention      string `json:"extention,omitempty" yaml:"extention,omitempty"`
+	Prefix         string `json:"prefix,omitempty" yaml:"prefix,omitempty"`
+	Protocol       string `json:"protocol,omitempty" yaml:"protocol,omitempty"`
+	Server         string `json:"server,omitempty" yaml:"server,omitempty"`
+	MessageMetrics bool   `json:"message_metrics,omitempty" yaml:"message_metrics,omitempty"`
+	TowerMetrics   bool   `json:"tower_metrics,omitempty" yaml:"tower_metrics,omitempty"`
 }
 type Handshakes struct {
 	TryInterval      string `json:"try_interval,omitempty" yaml:"try_interval,omitempty"`

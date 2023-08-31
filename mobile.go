@@ -1,7 +1,6 @@
 package mobile
 
 import (
-	"bytes"
 	"crypto/rand"
 	"encoding/json"
 	"fmt"
@@ -11,11 +10,8 @@ import (
 	"time"
 
 	cfg "github.com/ffip/vlan/config"
-	"github.com/ffip/vlan/entry"
-	"github.com/ffip/vlan/lib/utils/caution"
 	"github.com/ffip/vlan/lib/utils/cert"
 	"github.com/ffip/vlan/lib/utils/logs/logger"
-	"github.com/ffip/vlan/lib/yaml"
 	"golang.org/x/crypto/curve25519"
 )
 
@@ -42,98 +38,6 @@ type RawCert struct {
 type KeyPair struct {
 	PublicKey  string
 	PrivateKey string
-}
-
-func RenderConfig(configData string, key string) (string, error) {
-	var d m
-
-	err := json.Unmarshal([]byte(configData), &d)
-	if err != nil {
-		return "", err
-	}
-
-	// Otherwise, build the config
-	cfg := newConfig()
-	cfg.PKI.CA, _ = d["ca"].(string)
-	cfg.PKI.Cert, _ = d["cert"].(string)
-	cfg.PKI.Key = key
-
-	i, _ := d["port"].(float64)
-	cfg.Listen.Port = int(i)
-
-	cfg.Cipher, _ = d["cipher"].(string)
-	// Log verbosity is not required
-	if val, _ := d["logVerbosity"].(string); val != "" {
-		cfg.Logging.Level = val
-	}
-
-	i, _ = d["lhDuration"].(float64)
-	cfg.Tower.Interval = int(i)
-
-	if i, ok := d["mtu"].(float64); ok {
-		mtu := int(i)
-		cfg.Tun.Mtu = mtu
-	}
-
-	points := d["points"].(map[string]any)
-	for nebIp, mapping := range points {
-		hosts := mapping.([]any)
-
-		realHosts := make([]string, len(hosts))
-
-		for i, h := range hosts {
-			realHosts[i] = h.(string)
-		}
-
-		cfg.Points[nebIp] = realHosts
-	}
-
-	if routeTable, ok := d["routeTable"].([]any); ok {
-		cfg.Tun.RouteTable = make([]RouteTable, len(routeTable))
-		for i, r := range routeTable {
-			rawRoute := r.(map[string]any)
-			route := &cfg.Tun.RouteTable[i]
-			route.Route = rawRoute["route"].(string)
-			route.Via = rawRoute["via"].(string)
-		}
-	}
-
-	finalConfig, err := yaml.Marshal(cfg)
-	if err != nil {
-		return "", err
-	}
-
-	return string(finalConfig), nil
-}
-
-func TestConfig(configData string, key string) error {
-	defer func() {
-		if r := recover(); r != nil {
-			fmt.Println("Recovered in f", r)
-		}
-	}()
-
-	yamlConfig, err := RenderConfig(configData, key)
-	if err != nil {
-		return err
-	}
-
-	// We don't want to leak the config into the system logs
-	l := logger.New(1000)
-	l.SetOutput(bytes.NewBuffer([]byte{}))
-
-	c := cfg.NewC(l)
-	err = c.LoadString(yamlConfig)
-	if err != nil {
-		return fmt.Errorf("failed to load config: %s", err)
-	}
-
-	_, err = entry.Main(c, true, "", l, nil)
-	if err != nil {
-		caution.LogWithContextIfNeeded("Failed to start", err, l)
-		return err
-	}
-	return nil
 }
 
 func GetConfigSetting(configData string, setting string) string {
