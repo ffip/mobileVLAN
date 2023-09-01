@@ -86,6 +86,7 @@ type Sync struct {
 	Store      string `json:"store,omitempty" yaml:"store,omitempty"`
 	Addition   string `json:"addition,omitempty" yaml:"addition,omitempty"`
 }
+
 // The ExpiryCheck type represents an expiry check with optional fields for enabling/disabling, time
 // left, and log interval.
 // @property {bool} Enabled - The "Enabled" property is a boolean value that indicates whether the
@@ -101,6 +102,7 @@ type ExpiryCheck struct {
 	TimeLeft    string `json:"time_left,omitempty" yaml:"time_left,omitempty"`
 	LogInterval string `json:"log_interval,omitempty" yaml:"log_interval,omitempty"`
 }
+
 // The PKI type represents a set of properties related to Public Key Infrastructure.
 // @property {string} CA - The CA property represents the Certificate Authority (CA) used for the
 // Public Key Infrastructure (PKI). The CA is responsible for issuing and managing digital
@@ -128,6 +130,7 @@ type PKI struct {
 	DisconnectInvalid bool        `json:"disconnect_invalid,omitempty" yaml:"disconnect_invalid,omitempty"`
 	ExpiryCheck       ExpiryCheck `json:"expiry_check,omitempty" yaml:"expiry_check,omitempty"`
 }
+
 // The DNS type represents DNS configuration settings including enable/disable, address, port,
 // interval, mirror, and records.
 // @property {bool} Enable - A boolean value indicating whether the DNS is enabled or not.
@@ -160,6 +163,7 @@ type Tower struct {
 	LocalAllowList    map[string]any             `json:"local_allow_list,omitempty" yaml:"local_allow_list,omitempty"`
 	AdvertiseAddrs    []string                   `json:"advertise_addrs,omitempty" yaml:"advertise_addrs,omitempty"`
 }
+
 // The `Listen` type represents the configuration for a listening server.
 // @property {string} Addr - The `Addr` property represents the address on which the server should
 // listen for incoming connections. It is a string value.
@@ -189,6 +193,7 @@ type Listen struct {
 	SendRecvError string `json:"send_recv_error,omitempty" yaml:"send_recv_error,omitempty"`
 	Routines      int    `json:"routines,omitempty" yaml:"routines,omitempty"`
 }
+
 // The Punchy type is a struct that represents a configuration for a feature called Punchy, with
 // various properties such as enable/disable, frequency, response settings, delay settings, and
 // preferred ranges.
@@ -213,6 +218,7 @@ type Punchy struct {
 	RespondDelay    string   `json:"respond_delay,omitempty" yaml:"respond_delay,omitempty"`
 	PreferredRanges []string `json:"preferred_ranges,omitempty" yaml:"preferred_ranges,omitempty"`
 }
+
 // The Users type represents a user with a name and a list of keys.
 // @property {string} Name - The `Name` property is a string that represents the name of a user. It is
 // tagged with `json:"name,omitempty"` and `yaml:"name,omitempty"`, which means that when the struct is
@@ -223,6 +229,7 @@ type Users struct {
 	Name string   `json:"name,omitempty" yaml:"name,omitempty"`
 	Keys []string `json:"keys,omitempty" yaml:"keys,omitempty"`
 }
+
 // The SSHD type represents the configuration for an SSH server, including its enabled status, port
 // number, encryption key, and a list of users.
 // @property {bool} Enabled - The "Enabled" property is a boolean value that indicates whether SSHD is
@@ -238,6 +245,7 @@ type SSHD struct {
 	PointKey string  `json:"point_key,omitempty" yaml:"point_key,omitempty"`
 	Users    []Users `json:"users,omitempty" yaml:"users,omitempty"`
 }
+
 // The Socks5 type represents a configuration for a Socks5 proxy server.
 // @property {string} Addr - The `Addr` property represents the address of the SOCKS5 server. It is a
 // string that specifies the IP address or hostname of the server.
@@ -253,6 +261,7 @@ type Socks5 struct {
 	User     string `json:"user,omitempty" yaml:"user,omitempty"`
 	Password string `json:"password,omitempty" yaml:"password,omitempty"`
 }
+
 // The Forward type is used to define a forwarding configuration with protocol, local address, and
 // remote address.
 // @property {string} Proto - The `Proto` property is a string that represents the protocol used for
@@ -267,6 +276,7 @@ type Forward struct {
 	Local  string `json:"local,omitempty" yaml:"local,omitempty"`
 	Remote string `json:"remote,omitempty" yaml:"remote,omitempty"`
 }
+
 // The Proxy type is a struct that contains slices of Socks5 and Forward structs.
 // @property {[]Socks5} Socks5 - The `Socks5` property is an array of `Socks5` objects. Each `Socks5`
 // object represents a SOCKS5 proxy configuration.
@@ -276,6 +286,7 @@ type Proxy struct {
 	Socks5  []Socks5  `json:"socks5,omitempty" yaml:"socks5,omitempty"`
 	Forward []Forward `json:"forward,omitempty" yaml:"forward,omitempty"`
 }
+
 // The "Routes" type represents a network route with an optional maximum transmission unit (MTU) value.
 // @property {int} Mtu - The `Mtu` property represents the Maximum Transmission Unit (MTU) for a
 // network interface. It specifies the maximum size of a data packet that can be transmitted over the
@@ -286,6 +297,7 @@ type Routes struct {
 	Mtu   int    `json:"mtu,omitempty" yaml:"mtu,omitempty"`
 	Route string `json:"route,omitempty" yaml:"route,omitempty"`
 }
+
 // The RouteTable type represents a route with its associated properties.
 // @property {string} Route - The "Route" property represents the destination network or IP address for
 // the route. It specifies where the traffic should be directed to.
@@ -309,6 +321,7 @@ type RouteTable struct {
 	Metric int    `json:"metric,omitempty" yaml:"metric,omitempty"`
 	Enable bool   `json:"enable,omitempty" yaml:"enable,omitempty"`
 }
+
 // The type Tun represents a network tunnel configuration.
 // @property {bool} Enable - The `Enable` property is a boolean value that indicates whether the Tun
 // interface is enabled or not. If set to `true`, the Tun interface is enabled. If set to `false`, the
@@ -340,6 +353,7 @@ type Tun struct {
 	Routes             []Routes     `json:"routes,omitempty" yaml:"routes,omitempty"`
 	RouteTable         []RouteTable `json:"route_table,omitempty" yaml:"route_table,omitempty"`
 }
+
 // The Logging type is a struct that represents logging configuration with various properties such as
 // level, language, format, file path, maximum size, maximum backups, and maximum age.
 // @property {string} Level - The level property represents the logging level, which determines the
@@ -368,6 +382,7 @@ type Logging struct {
 	MaxBackups int    `json:"max_backups,omitempty" yaml:"max_backups,omitempty"`
 	MaxAge     int    `json:"max_age,omitempty" yaml:"max_age,omitempty"`
 }
+
 // The above type represents statistics related to a server configuration.
 // @property {string} Type - The "Type" property is a string that represents the type of the stats. It
 // could be used to differentiate between different types of stats.
@@ -405,6 +420,7 @@ type Stats struct {
 	MessageMetrics bool   `json:"message_metrics,omitempty" yaml:"message_metrics,omitempty"`
 	TowerMetrics   bool   `json:"tower_metrics,omitempty" yaml:"tower_metrics,omitempty"`
 }
+
 // The Handshakes type represents a set of parameters related to handshakes.
 // @property {string} TryInterval - The TryInterval property specifies the interval at which handshake
 // attempts should be made. It is represented as a string.
@@ -430,6 +446,7 @@ type Handshakes struct {
 	ChurnNumFailures int    `json:"churn_num_failures,omitempty" yaml:"churn_num_failures,omitempty"`
 	ChurnPeriod      string `json:"churn_period,omitempty" yaml:"churn_period,omitempty"`
 }
+
 // The Timers type represents intervals for connection alive and pending deletion.
 // @property {int} ConnectionAliveInterval - The `ConnectionAliveInterval` property represents the
 // interval (in seconds) at which the connection status is checked to ensure it is still alive.
@@ -440,6 +457,7 @@ type Timers struct {
 	ConnectionAliveInterval int `json:"connection_alive_interval,omitempty" yaml:"connection_alive_interval,omitempty"`
 	PendingDeletionInterval int `json:"pending_deletion_interval,omitempty" yaml:"pending_deletion_interval,omitempty"`
 }
+
 // The PSK type represents a pre-shared key with a mode and keys.
 // @property {string} Mode - The `Mode` property is a string that represents the mode of the PSK
 // (Pre-Shared Key). It can be used to specify the encryption algorithm or the security protocol being
@@ -450,6 +468,7 @@ type PSK struct {
 	Mode string `json:"mode,omitempty" yaml:"mode,omitempty"`
 	Keys any    `json:"keys,omitempty" yaml:"keys,omitempty"`
 }
+
 // The Conntrack type represents a connection tracking configuration with timeout values for TCP, UDP,
 // and default connections.
 // @property {string} TCPTimeout - The `TCPTimeout` property represents the timeout value for TCP
@@ -465,6 +484,7 @@ type Conntrack struct {
 	UDPTimeout     string `json:"udp_timeout,omitempty" yaml:"udp_timeout,omitempty"`
 	DefaultTimeout string `json:"default_timeout,omitempty" yaml:"default_timeout,omitempty"`
 }
+
 // The above type represents an outbound connection with properties such as port, protocol, and
 // endpoint.
 // @property {string} Port - The `Port` property represents the port number for the outbound
@@ -478,6 +498,7 @@ type Outbound struct {
 	Proto string `json:"proto,omitempty" yaml:"proto,omitempty"`
 	Point string `json:"point,omitempty" yaml:"point,omitempty"`
 }
+
 // The above type represents an inbound connection with port, protocol, point, and groups attributes.
 // @property {string} Port - The "Port" property represents the port number for the inbound connection.
 // It is a string type and is used to specify the port on which the connection will be made.
@@ -494,6 +515,7 @@ type Inbound struct {
 	Point  string   `json:"point,omitempty" yaml:"point,omitempty"`
 	Groups []string `json:"groups,omitempty" yaml:"groups,omitempty"`
 }
+
 // The Firewall type represents a firewall configuration with outbound and inbound rules.
 // @property {string} OutboundAction - The `OutboundAction` property specifies the default action to be
 // taken for outbound traffic. It can have values like "allow", "deny", or "reject".
