@@ -28,7 +28,7 @@ func init() {
 	runtime.MemProfileRate = 0
 }
 
-func NewBulk(configData string, key string, logFile string, tunFd int) (*Bulk, error) {
+func NewBulk(configData string, logFile string, tunFd int) (*Bulk, error) {
 	// GC more often, largely for iOS due to extension 15mb limit
 	debug.SetGCPercent(20)
 
