@@ -216,17 +216,34 @@ func sm2Keypair() ([]byte, []byte) {
 
 // The function `VerifyCertAndKey` verifies if a given certificate and private key match.
 func VerifyCertAndKey(rawCert string, pemPrivateKey string) (bool, error) {
-	rawKey, _, err := cert.UnmarshalX25519PrivateKey([]byte(pemPrivateKey))
-	if err != nil {
-		return false, fmt.Errorf("error while unmarshaling private key: %s", err)
-	}
 
-	cert, _, err := cert.UnmarshalCertificateFromPEM([]byte(rawCert))
+	ca, _, err := cert.UnmarshalCertificateFromPEM([]byte(rawCert))
 	if err != nil {
 		return false, fmt.Errorf("error while unmarshaling cert: %s", err)
 	}
 
-	if err = cert.VerifyPrivateKey(cert.Details.Curve, rawKey); err != nil {
+	var priv []byte
+	switch ca.Details.Curve {
+	case cert.Curve_X25519:
+		priv, _, err = cert.UnmarshalX25519PrivateKey([]byte(pemPrivateKey))
+		if err != nil {
+			return false, fmt.Errorf("error while unmarshaling private key: %s", err)
+		}
+	case cert.Curve_P256:
+		priv, _, err = cert.UnmarshalEDCHPrivateKey([]byte(pemPrivateKey))
+		if err != nil {
+			return false, fmt.Errorf("error while unmarshaling private key: %s", err)
+		}
+	case cert.Curve_SM2:
+		priv, _, err = cert.UnmarshalEDCHPrivateKey([]byte(pemPrivateKey))
+		if err != nil {
+			return false, fmt.Errorf("error while unmarshaling private key: %s", err)
+		}
+	default:
+		return false, fmt.Errorf("invalid curve")
+	}
+
+	if err = ca.VerifyPrivateKey(ca.Details.Curve, priv); err != nil {
 		return false, err
 	}
 
