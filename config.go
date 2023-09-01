@@ -153,6 +153,31 @@ type DNS struct {
 	Mirror   string            `json:"mirror,omitempty" yaml:"mirror,omitempty"`
 	Records  map[string]string `json:"records,omitempty" yaml:"records,omitempty"`
 }
+
+// The Tower type represents a configuration for a service with DNS settings, interval, detection
+// points, remote allow lists, local allow lists, and advertise addresses.
+// @property {bool} Service - The `Service` property is a boolean value that indicates whether the
+// tower is a service or not. If it is set to `true`, it means the tower is a service. If it is set to
+// `false` or omitted, it means the tower is not a service.
+// @property {DNS} DNS - The `DNS` property is a struct that contains information related to DNS
+// configuration. It may include properties such as `Nameservers`, `SearchDomains`, `Options`, etc.
+// @property {int} Interval - The `Interval` property in the `Tower` struct represents the time
+// interval in seconds at which certain actions or checks should be performed. It specifies the
+// frequency at which the tower should perform its tasks or operations.
+// @property DetectionPoint - The `DetectionPoint` property is a nested map that represents the
+// detection points for the tower. It has the following structure:
+// @property RemoteAllowList - The `RemoteAllowList` property is a map where the keys are strings
+// representing remote addresses and the values are booleans indicating whether the remote address is
+// allowed or not. It is used to specify a list of remote addresses that are allowed to access the
+// tower.
+// @property RemoteAllowRanges - The `RemoteAllowRanges` property is a map that contains ranges of
+// remote IP addresses that are allowed. Each key in the map represents a range of IP addresses, and
+// the corresponding value is a map that contains specific IP addresses within that range that are
+// allowed.
+// @property LocalAllowList - The `LocalAllowList` property is a map where the keys are strings and the
+// values can be of any type. It is used to specify a list of allowed local addresses.
+// @property {[]string} AdvertiseAddrs - AdvertiseAddrs is a slice of strings that represents the
+// addresses that the Tower should advertise for incoming connections.
 type Tower struct {
 	Service           bool                       `json:"service,omitempty" yaml:"service,omitempty"`
 	DNS               DNS                        `json:"dns,omitempty" yaml:"dns,omitempty"`

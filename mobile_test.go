@@ -7,6 +7,7 @@ import (
 	"github.com/ffip/vlan/lib/utils/logs/logger"
 )
 
+// The function `TestParseCerts` tests the loading of configuration data from a JSON and YAML string.
 func TestParseCerts(t *testing.T) {
 	jsonConfig := `{
     "name": "Debug Test - unsafe",
