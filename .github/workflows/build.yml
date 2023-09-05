@@ -24,11 +24,11 @@ jobs:
           distribution: 'zulu'
           java-version: '11'
 
-      - name: Set up NDK R26 RC 1
+      - name: Set up NDK R25c
         uses: nttld/setup-ndk@v1.0.6
         id: setup-ndk
         with:
-          ndk-version: r26-rc1
+          ndk-version: r25c
 
       - name: Build iOS and Android package
         env:
