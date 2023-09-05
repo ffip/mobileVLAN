@@ -127,7 +127,8 @@ func (n *Bulk) ListPendingPoints(pending bool) (string, error) {
 // specific network point (endpoint). It takes two parameters: `endpoint` which is the IP address of
 // the network point, and `pending` which indicates whether to include pending points or not.
 func (n *Bulk) GetPointInfoByEndpoint(endpoint string, pending bool) (string, error) {
-	b, err := json.Marshal(n.c.GetpointByEndpoint(stringIpToInt(endpoint), pending))
+	endpointInt := stringIpToInt(endpoint)
+	b, err := json.Marshal(n.c.GetpointByEndpoint(endpointInt, pending))
 	if err != nil {
 		return "", err
 	}
