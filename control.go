@@ -63,15 +63,15 @@ func NewBulk(configData string, logFile string, tunFd int) (*Bulk, error) {
 
 // The `Log` function is a method of the `Bulk` struct. It takes a string `v` as a parameter and logs
 // the string using the logger associated with the `Bulk` instance.
-func (n *Bulk) Log(v string) {
-	n.l.Println(v)
+func (x *Bulk) Log(v string) {
+	x.l.Println(v)
 }
 
 // The `Start()` method of the `Bulk` struct is used to start the execution of the `Control` instance
 // associated with the `Bulk` instance. It calls the `Start()` method of the `Control` instance, which
 // starts the main event loop and begins handling network traffic.
-func (n *Bulk) Start() {
-	n.c.Start()
+func (x *Bulk) Start() {
+	x.c.Start()
 }
 
 // The `ShutdownBlock()` method of the `Bulk` struct is used to block the execution of the program
@@ -79,15 +79,15 @@ func (n *Bulk) Start() {
 // instance associated with the `Bulk` instance, which waits for all active connections to be closed
 // before returning. This method is typically used when gracefully shutting down the program to ensure
 // that all network connections are properly closed before exiting.
-func (n *Bulk) ShutdownBlock() {
-	n.c.ShutdownBlock()
+func (x *Bulk) ShutdownBlock() {
+	x.c.ShutdownBlock()
 }
 
 // The `Stop()` method of the `Bulk` struct is used to stop the execution of the `Control` instance
 // associated with the `Bulk` instance. It calls the `Stop()` method of the `Control` instance, which
 // stops the main event loop and terminates the handling of network traffic.
-func (n *Bulk) Stop() {
-	n.c.Stop()
+func (x *Bulk) Stop() {
+	x.c.Stop()
 }
 
 // The `Rebind` method of the `Bulk` struct is used to rebind the UDP listener and update the towers.
@@ -95,9 +95,9 @@ func (n *Bulk) Stop() {
 // calls the `RebindUDPServer` method of the `Control` instance associated with the `Bulk` instance.
 // This method rebinds the UDP listener and updates the towers, which can be useful in scenarios where
 // the network configuration has changed or there is a need to refresh the network connections.
-func (n *Bulk) Rebind(reason string) {
-	n.l.Debug("Rebinding UDP listener and updating towers due to %s", reason)
-	n.c.RebindUDPServer()
+func (x *Bulk) Rebind(reason string) {
+	x.l.Debug("Rebinding UDP listener and updating towers due to %s", reason)
+	x.c.RebindUDPServer()
 }
 
 // The `Reload` method of the `Bulk` struct is used to reload the configuration of the `Bulk` instance.
@@ -105,16 +105,16 @@ func (n *Bulk) Rebind(reason string) {
 // the method, it calls the `ReloadConfigString` method of the `cfg.C` instance associated with the
 // `Bulk` instance. This method reloads the configuration using the provided `configData` string. If
 // there is an error during the reloading process, the method returns an error.
-func (n *Bulk) Reload(configData string) error {
-	n.l.Info("Reloading Nebula")
+func (x *Bulk) Reload(configData string) error {
+	x.l.Info("Reloading Nebula")
 
-	return n.config.ReloadConfigString(configData)
+	return x.config.ReloadConfigString(configData)
 }
 
 // The `ListPendingPoints` method of the `Bulk` struct is used to retrieve a list of pending points. It
 // takes a boolean parameter `pending` which indicates whether to list pending points or not.
-func (n *Bulk) ListPendingPoints(pending bool) (string, error) {
-	points := n.c.ListProcessesPoints(pending)
+func (x *Bulk) ListPendingPoints(pending bool) (string, error) {
+	points := x.c.ListProcessesPoints(pending)
 	b, err := json.Marshal(points)
 	if err != nil {
 		return "", err
@@ -126,9 +126,9 @@ func (n *Bulk) ListPendingPoints(pending bool) (string, error) {
 // The `GetPointInfoByEndpoint` method of the `Bulk` struct is used to retrieve information about a
 // specific network point (endpoint). It takes two parameters: `endpoint` which is the IP address of
 // the network point, and `pending` which indicates whether to include pending points or not.
-func (n *Bulk) GetPointInfoByEndpoint(endpoint string, pending bool) (string, error) {
+func (x *Bulk) GetPointInfoByEndpoint(endpoint string, pending bool) (string, error) {
 	endpointInt := stringIpToInt(endpoint)
-	b, err := json.Marshal(n.c.GetpointByEndpoint(endpointInt, pending))
+	b, err := json.Marshal(x.c.GetpointByEndpoint(endpointInt, pending))
 	if err != nil {
 		return "", err
 	}
@@ -139,20 +139,20 @@ func (n *Bulk) GetPointInfoByEndpoint(endpoint string, pending bool) (string, er
 // The `CloseTunnel` method of the `Bulk` struct is used to close a tunnel associated with a specific
 // endpoint. It takes an `endpoint` string parameter, which represents the IP address of the network
 // point.
-func (n *Bulk) CloseTunnel(endpoint string) bool {
-	return n.c.CloseTunnel(stringIpToInt(endpoint), false)
+func (x *Bulk) CloseTunnel(endpoint string) bool {
+	return x.c.CloseTunnel(stringIpToInt(endpoint), false)
 }
 
 // The `SetRemoteForTunnel` method of the `Bulk` struct is used to set the remote address for a tunnel
 // associated with a specific endpoint. It takes two parameters: `endpoint` which is the IP address of
 // the network point, and `addr` which is the remote address to set for the tunnel.
-func (n *Bulk) SetRemoteForTunnel(endpoint string, addr string) (string, error) {
+func (x *Bulk) SetRemoteForTunnel(endpoint string, addr string) (string, error) {
 	udpAddr := udp.NewAddrFromString(addr)
 	if udpAddr == nil {
 		return "", errors.New("could not parse udp address")
 	}
 
-	b, err := json.Marshal(n.c.SetRemoteForTunnel(stringIpToInt(endpoint), *udpAddr))
+	b, err := json.Marshal(x.c.SetRemoteForTunnel(stringIpToInt(endpoint), *udpAddr))
 	if err != nil {
 		return "", err
 	}
@@ -163,9 +163,9 @@ func (n *Bulk) SetRemoteForTunnel(endpoint string, addr string) (string, error) 
 // The `Sleep()` method of the `Bulk` struct is used to put the program to sleep. It closes all
 // non-tower tunnels and logs the number of closed tunnels. This method is typically used when the
 // program needs to temporarily pause its execution or go into a sleep mode.
-func (n *Bulk) Sleep() {
-	if closed := n.c.CloseAllTunnels(true); closed > 0 {
-		n.l.Echo().WithField("tunnels", closed).Info("Sleep called, closed non tower tunnels")
+func (x *Bulk) Sleep() {
+	if closed := x.c.CloseAllTunnels(true); closed > 0 {
+		x.l.Echo().WithField("tunnels", closed).Info("Sleep called, closed non tower tunnels")
 	}
 }
 
