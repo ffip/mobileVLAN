@@ -10,10 +10,10 @@ import (
 	"strings"
 	"time"
 
+	cfg "git.weixin.qq.com/__/vlan/lib/config"
+	"git.weixin.qq.com/__/vlan/lib/utils/cert"
+	"git.weixin.qq.com/__/vlan/lib/utils/logs/logger"
 	sm2_edch "github.com/emmansun/gmsm/ecdh"
-	cfg "github.com/ffip/vlan/config"
-	"github.com/ffip/vlan/lib/utils/cert"
-	"github.com/ffip/vlan/lib/utils/logs/logger"
 	"golang.org/x/crypto/curve25519"
 )
 

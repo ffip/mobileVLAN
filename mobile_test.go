@@ -3,8 +3,8 @@ package mobile
 import (
 	"testing"
 
-	cfg "github.com/ffip/vlan/config"
-	"github.com/ffip/vlan/lib/utils/logs/logger"
+	cfg "git.weixin.qq.com/__/vlan/lib/config"
+	"git.weixin.qq.com/__/vlan/lib/utils/logs/logger"
 )
 
 // The function `TestParseCerts` tests the loading of configuration data from a JSON and YAML string.
@@ -112,7 +112,7 @@ func TestParseCerts(t *testing.T) {
         ]
     },
     "cipher": "aes",
-    "sshd": {
+    "ssh": {
         "enabled": true,
         "port": 22222,
         "point_key": "/etc/vlan/ssh_point_rsa_key",
@@ -332,7 +332,7 @@ punchy:
   preferred_ranges:
     - 172.16.0.0/24
 cipher: aes
-sshd:
+ssh:
   enabled: true
   port: 22222
   point_key: /etc/vlan/ssh_point_rsa_key

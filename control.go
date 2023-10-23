@@ -9,12 +9,12 @@ import (
 	"runtime"
 	"runtime/debug"
 
-	cfg "github.com/ffip/vlan/config"
-	"github.com/ffip/vlan/entry"
-	"github.com/ffip/vlan/lib/network/iputil"
-	"github.com/ffip/vlan/lib/network/udp"
-	"github.com/ffip/vlan/lib/utils/caution"
-	"github.com/ffip/vlan/lib/utils/logs/logger"
+	cfg "git.weixin.qq.com/__/vlan/lib/config"
+	"git.weixin.qq.com/__/vlan/lib/network/iputil"
+	"git.weixin.qq.com/__/vlan/lib/network/udp"
+	"git.weixin.qq.com/__/vlan/lib/service/vlan"
+	"git.weixin.qq.com/__/vlan/lib/utils/caution"
+	"git.weixin.qq.com/__/vlan/lib/utils/logs/logger"
 )
 
 // The Bulk type is a struct that contains a control, logger, and configuration.
@@ -22,7 +22,7 @@ import (
 // @property l - A pointer to a logger.Logger object.
 // @property config - The `config` property is a pointer to an object of type `cfg.C`.
 type Bulk struct {
-	c      *entry.Control
+	c      *vlan.Control
 	l      *logger.Logger
 	config *cfg.C
 }
@@ -52,7 +52,7 @@ func NewBulk(configData string, logFile string, tunFd int) (*Bulk, error) {
 	}
 
 	//TODO: inject our version
-	ctrl, err := entry.Main(c, false, "", l, &tunFd)
+	ctrl, err := vlan.Main(c, false, "", l, &tunFd)
 	if err != nil {
 		caution.LogWithContextIfNeeded("Failed to start", err, l)
 		return nil, err
@@ -170,5 +170,5 @@ func (x *Bulk) Sleep() {
 }
 
 func stringIpToInt(ip string) iputil.Endpoint {
-	return iputil.IP2Endpoint(net.ParseIP(ip))
+	return iputil.Ip2Endpoint(net.ParseIP(ip))
 }

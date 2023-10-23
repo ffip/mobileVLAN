@@ -17,7 +17,7 @@ package mobile
 // @property {Punchy} Punchy - The `Punchy` property is a struct that contains configuration options
 // related to the Punchy service. It may include settings such as the Punchy server address, port, and
 // other relevant parameters.
-// @property {SSHD} SSHD - The `SSHD` property represents the configuration for the SSH daemon. It
+// @property {SSH} ssh - The `SSH` property represents the configuration for the SSH daemon. It
 // includes settings such as the SSH port, allowed users, and authentication methods.
 // @property {Proxy} Proxy - The `Proxy` property in the `config` struct represents the configuration
 // for the proxy settings. It includes settings such as the proxy type, address, and authentication
@@ -51,7 +51,7 @@ type config struct {
 	Tower      Tower               `json:"tower,omitempty" yaml:"tower,omitempty"`
 	Listen     Listen              `json:"listen,omitempty" yaml:"listen,omitempty"`
 	Punchy     Punchy              `json:"punchy,omitempty" yaml:"punchy,omitempty"`
-	SSHD       SSHD                `json:"sshd,omitempty" yaml:"sshd,omitempty"`
+	SSH        ssh                 `json:"ssh,omitempty" yaml:"ssh,omitempty"`
 	Proxy      Proxy               `json:"proxy,omitempty" yaml:"proxy,omitempty"`
 	Tun        Tun                 `json:"tun,omitempty" yaml:"tun,omitempty"`
 	Logging    Logging             `json:"logging,omitempty" yaml:"logging,omitempty"`
@@ -255,16 +255,16 @@ type Users struct {
 	Keys []string `json:"keys,omitempty" yaml:"keys,omitempty"`
 }
 
-// The SSHD type represents the configuration for an SSH server, including its enabled status, port
+// The ssh type represents the configuration for an SSH server, including its enabled status, port
 // number, encryption key, and a list of users.
-// @property {bool} Enabled - The "Enabled" property is a boolean value that indicates whether SSHD is
-// enabled or not. If it is set to true, SSHD is enabled. If it is set to false, SSHD is disabled.
-// @property {int} Port - The `Port` property represents the port number on which the SSHD service is
+// @property {bool} Enabled - The "Enabled" property is a boolean value that indicates whether ssh is
+// enabled or not. If it is set to true, ssh is enabled. If it is set to false, ssh is disabled.
+// @property {int} Port - The `Port` property represents the port number on which the ssh service is
 // running.
-// @property {string} PointKey - The "PointKey" property in the SSHD struct represents the SSH public
+// @property {string} PointKey - The "PointKey" property in the ssh struct represents the SSH public
 // key used for authentication.
 // @property {[]Users} Users - The `Users` property is an array of `Users` objects.
-type SSHD struct {
+type ssh struct {
 	Enabled  bool    `json:"enabled,omitempty" yaml:"enabled,omitempty"`
 	Port     int     `json:"port,omitempty" yaml:"port,omitempty"`
 	PointKey string  `json:"point_key,omitempty" yaml:"point_key,omitempty"`
@@ -586,7 +586,7 @@ func newConfig() *config {
 			Delay:  "1s",
 		},
 		Cipher: "aes",
-		SSHD: SSHD{
+		SSH: ssh{
 			Users: []Users{},
 		},
 		Tun: Tun{
