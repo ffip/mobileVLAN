@@ -57,3 +57,12 @@ jobs:
           name: libx.aar
           path: /Users/runner/mobileVLAN/libx.aar
           retention-days: 90
+  
+      - name: Push artifacts to release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: latest
+          tag_name: latest
+          files: |
+            /Users/runner/mobileVLAN/libx.aar
+            /Users/runner/mobileVLAN/libx.xcframework
