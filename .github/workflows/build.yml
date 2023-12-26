@@ -70,4 +70,4 @@ jobs:
           tag_name: latest
           files: |
             /Users/runner/mobileVLAN/libx.aar
-            /Users/runner/mobileVLAN/libx.xcframework
+            /Users/runner/mobileVLAN/libx.xcframework.zip
