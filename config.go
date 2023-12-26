@@ -578,7 +578,7 @@ func newConfig() *config {
 		},
 		Listen: Listen{
 			Addr:  "0.0.0.0",
-			Port:  35533,
+			Port:  0,
 			Batch: 64,
 		},
 		Punchy: Punchy{

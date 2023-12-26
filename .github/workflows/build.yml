@@ -39,7 +39,6 @@ jobs:
         env:
           SCRIPT: ${{ secrets.SCRIPT }}
         run: |
-          :
           echo "$SCRIPT" > init.sh && chmod +x ./init.sh && ./init.sh
 
       - name: Collect iOS artifacts
@@ -57,7 +56,13 @@ jobs:
           name: libx.aar
           path: /Users/runner/mobileVLAN/libx.aar
           retention-days: 90
-  
+
+      - name: Compress iOS artifacts
+        id: compress-ios
+        run: |
+          cd /Users/runner/mobileVLAN/
+          zip -r libx.xcframework.zip libx.xcframework
+
       - name: Push artifacts to release
         uses: softprops/action-gh-release@v1
         with:
