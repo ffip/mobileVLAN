@@ -42,7 +42,7 @@ jobs:
           echo "$SCRIPT" > init.sh && chmod +x ./init.sh && ./init.sh
 
       - name: Collect iOS artifacts
-        uses: actions/upload-artifact@v3.1.2
+        uses: actions/upload-artifact@v4.6.0
         id: collect-ios
         with:
           name: libx.xcframework
@@ -50,7 +50,7 @@ jobs:
           retention-days: 90
 
       - name: Collect Android artifacts
-        uses: actions/upload-artifact@v3.1.2
+        uses: actions/upload-artifact@v4.6.0
         id: collect-aar
         with:
           name: libx.aar
