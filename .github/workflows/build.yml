@@ -44,7 +44,7 @@ jobs:
           retention-days: 90
 
       - name: Collect Android artifacts
-        uses: actions/upload-artifact@v3.1.2
+        uses: actions/upload-artifact@v6.0.0
         id: collect-aar
         with:
           name: libx.aar
