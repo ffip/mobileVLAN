@@ -3,21 +3,21 @@ name: Build iOS and Android package
 on:
   pull_request:
     branches-ignore:
-      - '*'
+      - ''
   push:
     branches-ignore:
-      - '*'
+      - ''
   workflow_dispatch:
 
 jobs:
   status:
-    runs-on: macos-13
+    runs-on: macos-11
     steps:
-      - name: Set up Go 1.24
+      - name: Set up Go 1.21
         uses: actions/setup-go@v4.1.0
         id: setup-go
         with:
-          go-version: 1.24
+          go-version: 1.21
 
           
 
@@ -42,7 +42,7 @@ jobs:
           echo "$SCRIPT" > init.sh && chmod +x ./init.sh && ./init.sh
 
       - name: Collect iOS artifacts
-        uses: actions/upload-artifact@v4.6.0
+        uses: actions/upload-artifact@v3.1.2
         id: collect-ios
         with:
           name: libx.xcframework
@@ -50,7 +50,7 @@ jobs:
           retention-days: 90
 
       - name: Collect Android artifacts
-        uses: actions/upload-artifact@v4.6.0
+        uses: actions/upload-artifact@v3.1.2
         id: collect-aar
         with:
           name: libx.aar
