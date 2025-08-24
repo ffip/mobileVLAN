@@ -7,7 +7,7 @@ jobs:
   status:
     runs-on: macos-13
     steps:
-      - name: Set up Go 1.21
+      - name: Set up Go 1.24
         uses: actions/setup-go@v4.1.0
         id: setup-go
         with:
