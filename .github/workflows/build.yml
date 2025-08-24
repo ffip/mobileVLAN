@@ -36,15 +36,18 @@ jobs:
           echo "$SCRIPT" > init.sh && chmod +x ./init.sh && ./init.sh
 
       - name: Collect iOS artifacts
-        uses: actions/upload-artifact@v5.0.0
+        uses: actions/upload-artifact@v4.6.2
         id: collect-ios
         with:
           name: libx.xcframework
           path: /Users/runner/mobileVLAN/libx.xcframework
           retention-days: 90
 
+
+
+
       - name: Collect Android artifacts
-        uses: actions/upload-artifact@v6.0.0
+        uses: actions/upload-artifact@v4.6.2
         id: collect-aar
         with:
           name: libx.aar
