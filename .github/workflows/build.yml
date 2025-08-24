@@ -3,10 +3,10 @@ name: Build iOS and Android package
 on:
   pull_request:
     branches-ignore:
-      - ''
+      - '*'
   push:
     branches-ignore:
-      - ''
+      - '*'
   workflow_dispatch:
 
 jobs:
